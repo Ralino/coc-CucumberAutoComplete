@@ -49,6 +49,7 @@ let stepsHandler: StepsHandler;
 let pagesHandler: PagesHandler;
 
 connection.onInitialize((params: InitializeParams) => {
+    connection.console.log("initializing server");
     workspaceRoot = params.rootPath || '';
 
     const capabilities = params.capabilities;
@@ -94,6 +95,7 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(() => {
+    connection.console.log("initialized server");
     if (hasConfigurationCapability) {
         // Register for all configuration changes.
         connection.client.register(DidChangeConfigurationNotification.type, undefined);
@@ -177,10 +179,15 @@ function getSettingsFromBase(baseSettings: BaseSettings) {
 }
 
 function initStepsAndPagesSetup(settings: Settings) {
+    connection.console.log("Start to watchStepsFiles");
     watchStepsFiles(settings);
+    connection.console.log("watchStepsFiles done");
     initHandlers(settings);
+    connection.console.log("initHandlers done");
     populateHandlers(settings);
+    connection.console.log("populateHandlers done");
     validateStepsConfiguration(settings);
+    connection.console.log("validateSteps done");
 }
 
 function validateStepsConfiguration(settings: Settings) {

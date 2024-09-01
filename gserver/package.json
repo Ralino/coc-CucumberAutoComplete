@@ -26,7 +26,6 @@
     "@types/node": "^18.14.6",
     "@types/strip-comments": "^2.0.1",
     "ts-node": "^2.0.0",
-    "typescript": "~2.3.0",
-    "vscode": "^1.1.10"
+    "typescript": "~2.3.0"
   }
 }

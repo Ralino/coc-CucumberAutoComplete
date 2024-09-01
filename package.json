@@ -8,7 +8,7 @@
   "description": "VSCode Cucumber (Gherkin) Full Language Support + Formatting + Autocomplete",
   "homepage": "https://github.com/alexkrechik/VSCucumberAutoComplete",
   "engines": {
-    "vscode": "^1.75.0"
+    "coc": "^0.0.82"
   },
   "repository": {
     "type": "git",
@@ -26,49 +26,12 @@
     "feature",
     "autocomplete"
   ],
-  "main": "./gclient/out/extension",
+  "main": "./gclient/out/extension.js",
   "icon": "img/icon.png",
   "contributes": {
-    "languages": [
-      {
-        "id": "feature",
-        "aliases": [
-          "feature",
-          "gherkin",
-          "Gherkin",
-          "cucumber"
-        ],
-        "extensions": [
-          ".feature",
-          ".testcase"
-        ],
-        "configuration": "./language-configuration.json",
-        "icon": {
-          "light": "./img/cucumber.png",
-          "dark": "./img/cucumber.png"
-        }
-      }
-    ],
-    "grammars": [
-      {
-        "language": "feature",
-        "scopeName": "text.gherkin.feature",
-        "path": "./syntaxes/feature.tmLanguage.json"
-      },
-      {
-        "injectTo": [
-          "text.gherkin.feature"
-        ],
-        "scopeName": "text.gherkin.feature.json",
-        "path": "./syntaxes/json-embed.json",
-        "embeddedLanguages": {
-          "meta.embedded.block.json": "json"
-        }
-      }
-    ],
     "snippets": [
       {
-        "language": "feature",
+        "language": "cucumber",
         "path": "./snippets.json"
       }
     ],
@@ -166,14 +129,16 @@
       }
     }
   },
+  "activationEvents": [
+    "*"
+  ],
   "scripts": {
     "compile": "tsc -b",
     "watch": "tsc -b -w",
-    "package": "vsce package",
+    "build": "node esbuild.mjs",
     "lint": "eslint ./gclient/src ./gserver/src --ext .ts,.tsx",
     "lint:fix": "eslint ./gclient/src ./gserver/src --ext .ts,.tsx --fix",
     "postinstall": "cd gclient && npm install && cd ../gserver && npm install && cd ..",
-    "publish": "vsce publish",
     "test:server": "jest",
     "test": "npm run test:server"
   },
@@ -182,7 +147,8 @@
     "@types/node": "^18.14.6",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
-    "@vscode/vsce": "^2.26.0",
+    "coc.nvim": "^0.0.83-next.18",
+    "esbuild": "^0.19.8",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",

@@ -1,12 +1,12 @@
 import * as path from 'path';
 
-import { workspace, ExtensionContext } from 'vscode';
+import { workspace, ExtensionContext, window } from 'coc.nvim';
 import {
     LanguageClient,
     LanguageClientOptions,
     ServerOptions,
     TransportKind,
-} from 'vscode-languageclient/node';
+} from 'coc.nvim';
 
 let client: LanguageClient;
 
@@ -29,7 +29,7 @@ export function activate(context: ExtensionContext) {
     // Options to control the language client
     const clientOptions: LanguageClientOptions = {
     // Register the server for Cucumber feature files
-        documentSelector: [{ scheme: 'file', language: 'feature' }],
+        documentSelector: [{ scheme: 'file', language: 'cucumber' }],
         synchronize: {
             // Notify the server about file changes to '.clientrc files contain in the workspace
             fileEvents: workspace.createFileSystemWatcher('**/.clientrc'),
@@ -44,11 +44,13 @@ export function activate(context: ExtensionContext) {
         clientOptions
     );
 
+    window.showInformationMessage('Activated VSCucumberAutoComplete');
+
     // Start the client. This will also launch the server
     client.start();
 }
 
-export function deactivate(): Thenable<void> | undefined {
+export function deactivate(): Promise<void> | undefined {
     if (!client) {
         return undefined;
     }
